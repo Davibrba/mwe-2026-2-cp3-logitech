@@ -26,6 +26,12 @@ FAIXAS_VAREJO = (
 )
 TETO_VAREJO = Decimal("500.00")
 
+# RF03: os percentuais do Varejo dobram para o Corporativo.
+FAIXAS_CORPORATIVO = tuple(
+    FaixaDeAtraso(faixa.limite_superior, faixa.percentual * 2) for faixa in FAIXAS_VAREJO
+)
+TETO_CORPORATIVO = Decimal("2000.00")
+
 
 @dataclass(frozen=True)
 class Apuracao:
@@ -37,6 +43,10 @@ def _percentual(faixas: tuple[FaixaDeAtraso, ...], atraso: timedelta) -> Decimal
 
 
 def calcular_credito(tipo_cliente: str, frete: Decimal, atraso: timedelta) -> Apuracao:
-    percentual = _percentual(FAIXAS_VAREJO, atraso)
+    if tipo_cliente == "CORPORATIVO":
+        faixas, teto = FAIXAS_CORPORATIVO, TETO_CORPORATIVO
+    else:
+        faixas, teto = FAIXAS_VAREJO, TETO_VAREJO
+    percentual = _percentual(faixas, atraso)
     credito = (frete * percentual).quantize(CENTAVO, rounding=ROUND_HALF_UP)
-    return Apuracao(credito=min(credito, TETO_VAREJO))
+    return Apuracao(credito=min(credito, teto))
