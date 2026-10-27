@@ -75,3 +75,9 @@ def test_ct11_corporativo_percentuais_dobrados_nos_limites_das_faixas():
 def test_ct12_corporativo_credito_limitado_ao_teto_de_2000():
     assert calcular_credito("CORPORATIVO", Decimal("2000.00"), atraso(72, 0, 1)).credito == Decimal("2000.00")
     assert calcular_credito("CORPORATIVO", Decimal("2000.01"), atraso(72, 0, 1)).credito == Decimal("2000.00")
+
+
+def test_ct13_cortesia_nao_recebe_credito_mas_e_notificada_do_atraso():
+    apuracao = calcular_credito("CORTESIA", Decimal("0.00"), atraso(100))
+    assert apuracao.credito == Decimal("0.00")
+    assert apuracao.notificar_atraso is True
