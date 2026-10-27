@@ -57,3 +57,21 @@ def test_ct16_varejo_credito_arredondado_ao_centavo_half_up():
     apuracao = calcular_credito("VAREJO", Decimal("123.45"), atraso(2, 0, 1))
     assert apuracao.credito == Decimal("12.35")
     assert apuracao.credito.as_tuple().exponent == -2
+
+
+def test_ct10_corporativo_tolerancia_igual_e_percentual_dobrado_na_primeira_faixa():
+    assert calcular_credito("CORPORATIVO", Decimal("300.00"), atraso(2)).credito == Decimal("0.00")
+    assert calcular_credito("CORPORATIVO", Decimal("300.00"), atraso(2, 0, 1)).credito == Decimal("60.00")
+
+
+def test_ct11_corporativo_percentuais_dobrados_nos_limites_das_faixas():
+    frete = Decimal("300.00")
+    assert calcular_credito("CORPORATIVO", frete, atraso(24)).credito == Decimal("60.00")
+    assert calcular_credito("CORPORATIVO", frete, atraso(24, 0, 1)).credito == Decimal("150.00")
+    assert calcular_credito("CORPORATIVO", frete, atraso(72)).credito == Decimal("150.00")
+    assert calcular_credito("CORPORATIVO", frete, atraso(72, 0, 1)).credito == Decimal("300.00")
+
+
+def test_ct12_corporativo_credito_limitado_ao_teto_de_2000():
+    assert calcular_credito("CORPORATIVO", Decimal("2000.00"), atraso(72, 0, 1)).credito == Decimal("2000.00")
+    assert calcular_credito("CORPORATIVO", Decimal("2000.01"), atraso(72, 0, 1)).credito == Decimal("2000.00")
