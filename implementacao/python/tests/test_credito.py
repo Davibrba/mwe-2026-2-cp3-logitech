@@ -51,3 +51,9 @@ def test_ct08_varejo_50_porcento_coincide_com_o_teto():
 def test_ct09_varejo_credito_um_centavo_acima_do_teto_e_limitado_a_500():
     apuracao = calcular_credito("VAREJO", Decimal("1000.02"), atraso(72, 0, 1))
     assert apuracao.credito == Decimal("500.00")
+
+
+def test_ct16_varejo_credito_arredondado_ao_centavo_half_up():
+    apuracao = calcular_credito("VAREJO", Decimal("123.45"), atraso(2, 0, 1))
+    assert apuracao.credito == Decimal("12.35")
+    assert apuracao.credito.as_tuple().exponent == -2
