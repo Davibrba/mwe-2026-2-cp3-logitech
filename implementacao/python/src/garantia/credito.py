@@ -36,6 +36,7 @@ TETO_CORPORATIVO = Decimal("2000.00")
 @dataclass(frozen=True)
 class Apuracao:
     credito: Decimal
+    notificar_atraso: bool = False
 
 
 def _percentual(faixas: tuple[FaixaDeAtraso, ...], atraso: timedelta) -> Decimal:
@@ -43,6 +44,8 @@ def _percentual(faixas: tuple[FaixaDeAtraso, ...], atraso: timedelta) -> Decimal
 
 
 def calcular_credito(tipo_cliente: str, frete: Decimal, atraso: timedelta) -> Apuracao:
+    if tipo_cliente == "CORTESIA":
+        return Apuracao(credito=ZERO, notificar_atraso=atraso > timedelta(0))
     if tipo_cliente == "CORPORATIVO":
         faixas, teto = FAIXAS_CORPORATIVO, TETO_CORPORATIVO
     else:
