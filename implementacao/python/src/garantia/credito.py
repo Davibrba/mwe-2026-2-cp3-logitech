@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from datetime import timedelta
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 
 TOLERANCIA = timedelta(hours=2)
 TETO_VAREJO = Decimal("500.00")
+CENTAVO = Decimal("0.01")
 
 
 @dataclass(frozen=True)
@@ -20,4 +21,5 @@ def calcular_credito(tipo_cliente: str, frete: Decimal, atraso: timedelta) -> Ap
         percentual = Decimal("0.25")
     else:
         percentual = Decimal("0.50")
-    return Apuracao(credito=min(frete * percentual, TETO_VAREJO))
+    credito = (frete * percentual).quantize(CENTAVO, rounding=ROUND_HALF_UP)
+    return Apuracao(credito=min(credito, TETO_VAREJO))
