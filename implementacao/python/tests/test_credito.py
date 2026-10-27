@@ -41,3 +41,13 @@ def test_ct06_varejo_exatamente_72h_ainda_gera_25_porcento():
 def test_ct07_varejo_um_segundo_acima_de_72h_gera_50_porcento():
     apuracao = calcular_credito("VAREJO", Decimal("300.00"), atraso(72, 0, 1))
     assert apuracao.credito == Decimal("150.00")
+
+
+def test_ct08_varejo_50_porcento_coincide_com_o_teto():
+    apuracao = calcular_credito("VAREJO", Decimal("1000.00"), atraso(72, 0, 1))
+    assert apuracao.credito == Decimal("500.00")
+
+
+def test_ct09_varejo_credito_um_centavo_acima_do_teto_e_limitado_a_500():
+    apuracao = calcular_credito("VAREJO", Decimal("1000.02"), atraso(72, 0, 1))
+    assert apuracao.credito == Decimal("500.00")
