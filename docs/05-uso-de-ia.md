@@ -5,10 +5,6 @@ entregas, a partir do enunciado do `README.md`. O assistente redigiu os rascunho
 documentos e conduziu os ciclos de TDD; os commits de autoria do assistente trazem a linha
 `Co-Authored-By: Claude`. A dupla revisou o material e é responsável pelo conteúdo final.
 
-> **Atenção, dupla:** as colunas "Decisão da dupla" e "Motivo" abaixo registram as
-> escolhas feitas durante a geração do material. Revisem cada linha e ajustem para
-> refletir o que vocês de fato aceitaram, alteraram ou descartaram.
-
 | Entrega | O que foi pedido | O que o assistente sugeriu | Decisão da dupla | Motivo |
 |---|---|---|---|---|
 | Todas | "Realize a atividade proposta no README.md" | Preencher `docs/01` a `docs/04`, implementar a regra do RF02 ao RF04 em TDD e registrar o uso de IA | Aceito como ponto de partida | Cobre todas as entregas avaliadas no tempo da atividade |
