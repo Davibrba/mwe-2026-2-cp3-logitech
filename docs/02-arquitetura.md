@@ -111,7 +111,7 @@ garantia fica em **duas camadas**:
   O RF06 exige sequencial e **nunca repetido**; se a área fiscal exigir sem lacunas, a
   alternativa é uma tabela `contador` com `UPDATE ... SET valor = valor + 1 RETURNING valor`
   dentro da transação da nota (bloqueio de linha), trocando vazão por ausência de lacunas.
-- Verificação: CT17 do plano de testes dispara 1.000 emissões concorrentes contra um
+- Verificação: CT24 do plano de testes dispara 1.000 emissões concorrentes contra um
   PostgreSQL real e confere 1.000 números distintos.
 
 ## Execução em contêineres (RNF04)
