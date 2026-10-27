@@ -26,3 +26,18 @@ def test_ct03_varejo_um_segundo_acima_da_tolerancia_gera_10_porcento():
 def test_ct04_varejo_exatamente_24h_ainda_gera_10_porcento():
     apuracao = calcular_credito("VAREJO", Decimal("300.00"), atraso(24))
     assert apuracao.credito == Decimal("30.00")
+
+
+def test_ct05_varejo_um_segundo_acima_de_24h_gera_25_porcento():
+    apuracao = calcular_credito("VAREJO", Decimal("300.00"), atraso(24, 0, 1))
+    assert apuracao.credito == Decimal("75.00")
+
+
+def test_ct06_varejo_exatamente_72h_ainda_gera_25_porcento():
+    apuracao = calcular_credito("VAREJO", Decimal("300.00"), atraso(72))
+    assert apuracao.credito == Decimal("75.00")
+
+
+def test_ct07_varejo_um_segundo_acima_de_72h_gera_50_porcento():
+    apuracao = calcular_credito("VAREJO", Decimal("300.00"), atraso(72, 0, 1))
+    assert apuracao.credito == Decimal("150.00")
